@@ -49,7 +49,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
                -Dsonar.projectKey=Sowntharia_student-management-system \
-               -Dsonar.organization=sowntharia
+               -Dsonar.organization=Sowntharia
 
       # 6. Upload coverage to Codecov
       - name: Upload coverage to Codecov
