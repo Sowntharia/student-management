@@ -31,6 +31,13 @@
     <!-- skip flags (controlled by profiles) -->
     <skipITs>false</skipITs>
     <skipE2E>false</skipE2E>
+    
+    <!-- SonarCloud -->
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.organization>Sowntharia</sonar.organization>
+    <sonar.projectKey>Sowntharia_student-management</sonar.projectKey>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
   </properties>
 
   <dependencies>
