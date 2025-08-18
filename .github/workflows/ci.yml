@@ -2,9 +2,9 @@ name: CI - SonarCloud & Codecov
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main]
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
           -Dsonar.organization=Sowntharia
           -Dsonar.projectKey=Sowntharia_student-management
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-          -Dsonar.branch.name=${{ github.ref_name }}
+          -Dsonar.branch.name=main
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
       - name: Upload coverage to Codecov
@@ -56,6 +56,6 @@ jobs:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      # Optional Selenium/E2E profile
+      # Selenium/E2E profile
       - name: Run E2E tests
         run: xvfb-run -a mvn -B verify -Pe2e-tests
