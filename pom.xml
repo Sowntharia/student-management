@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.1.12</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.example</groupId>
+  <artifactId>studentmanagement</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Student Management</name>
+  <description>Student Management System with E2E Tests</description>
+
+  <properties>
+    <java.version>17</java.version>
+    <selenium.version>4.22.0</selenium.version>
+    <webdrivermanager.version>5.8.0</webdrivermanager.version>
+    <jacoco.version>0.8.11</jacoco.version>
+    <pitest.version>1.19.4</pitest.version>
+    <pitest.junit5.version>1.2.3</pitest.junit5.version>
+    <buildhelper.version>3.4.0</buildhelper.version>
+    <surefire.version>3.1.2</surefire.version>
+    <failsafe.version>3.1.2</failsafe.version>
+    
+    <!-- skip flags (controlled by profiles) -->
+    <skipITs>false</skipITs>
+    <skipE2E>false</skipE2E>
+  </properties>
+
+  <dependencies>
+    <!-- Spring Boot -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
+    <!-- DB -->
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Selenium -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${webdrivermanager.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Awaitility (tests) -->
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Spring test stack (JUnit 5, Mockito, AssertJ included) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Testcontainers -->
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>mysql</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+      	<groupId>org.sonarsource.scanner.maven</groupId>
+      	<artifactId>sonar-maven-plugin</artifactId>
+      	<version>3.10.0.2594</version>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals><goal>prepare-agent</goal></goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals><goal>report</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+         <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+           <version>${pitest.version}</version>
+
+  <!-- KEY: add the JUnit 5 bridge as a DEPENDENCY of the PIT plugin -->
+      <dependencies>
+        <dependency>
+           <groupId>org.pitest</groupId>
+           <artifactId>pitest-junit5-plugin</artifactId>
+           <version>${pitest.junit5.version}</version>
+        </dependency>
+      </dependencies>
+
+      <configuration>
+    <!-- Mutate code that your unit tests actually cover -->
+         <targetClasses>
+            <param>com.example.studentmanagement.service.*</param>
+            <param>com.example.studentmanagement.controller.*</param>
+         </targetClasses>
+
+    <!-- Usually NOT covered by unit tests; exclude to avoid “no coverage” noise -->
+    <excludedClasses>
+      <param>com.example.studentmanagement.**/**IntegrationTest.java</param>
+      <param>com.example.studentmanagement.controllers.StudentWebControllerE2E</param>
+    </excludedClasses>
+    
+        <targetTests>
+            <param>com.example.studentmanagement.service.*</param>
+            <param>com.example.studentmanagement.controller.*</param>
+        </targetTests>
+
+        <mutators>
+           <mutator>DEFAULTS</mutator>
+        </mutators>
+        <outputFormats>
+          <param>HTML</param>
+        </outputFormats>
+        <threads>4</threads>
+        <timestampedReports>true</timestampedReports>
+     </configuration>
+    </plugin>
+
+
+      <!-- add src/e2e/java as test source -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-e2e-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals><goal>add-test-source</goal></goals>
+            <configuration>
+              <sources><source>src/e2e/java</source></sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- surefire: unit tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes><include>**/*Test.java</include></includes>
+          <excludes>
+            <exclude>**/*IntegrationTest.java</exclude>
+            <exclude>**/*E2E*.java</exclude>
+          </excludes>
+          <shutdown>kill</shutdown>
+          <forkedProcessExitTimeoutInSeconds>60</forkedProcessExitTimeoutInSeconds>
+          <enableProcessChecker>all</enableProcessChecker>
+        </configuration>
+      </plugin>
+
+      <!-- failsafe: IT + E2E -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>it-and-e2e</id>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+				   <skipITs>${skipITs}</skipITs>
+                <systemPropertyVariables>
+                   <skipE2E>${skipE2E}</skipE2E>
+                </systemPropertyVariables>
+              <includes>
+                <include>**/*IntegrationTest.java</include>
+                <include>**/*E2E*.java</include>
+              </includes>
+              <testFailureIgnore>false</testFailureIgnore>
+              <shutdown>kill</shutdown>
+              <forkedProcessExitTimeoutInSeconds>60</forkedProcessExitTimeoutInSeconds>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+ <profiles>
+    <!-- build inside Docker image: unit tests only -->
+    <profile>
+      <id>docker-build</id>
+      <properties>
+        <skipITs>true</skipITs>
+        <skipE2E>true</skipE2E>
+      </properties>
+    </profile>
+
+    <!-- default: run everything -->
+    <profile>
+      <id>full-tests</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <skipITs>false</skipITs>
+        <skipE2E>false</skipE2E>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>e2e-tests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${surefire.version}</version>
+            <configuration>
+              <includes><include>**/*E2E.java</include></includes>
+              <shutdown>kill</shutdown>
+              <forkedProcessExitTimeoutInSeconds>60</forkedProcessExitTimeoutInSeconds>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

@@ -1,0 +1,13 @@
+/* Soft page background & spacing */
+body { background-color: #f8f9fa; }
+
+/* Make the table headers pop a bit */
+.table thead th {
+  letter-spacing: .02em;
+}
+
+/* Keep action buttons tidy on narrow screens */
+#studentTable td:last-child { white-space: nowrap; }
+
+/* Center the form card and give it air (already set via inline styles) */
+#form_activate .card-body { padding: 2rem; }
