@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StudentmanagementApplicationTests extends BaseTestContainer {
 
 	@Autowired
-	private StudentController studentController;
+	StudentController studentController;
 
 	@Test
 	void contextLoads() {
