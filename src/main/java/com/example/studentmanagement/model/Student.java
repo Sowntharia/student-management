@@ -1,7 +1,5 @@
 package com.example.studentmanagement.model;
 
-import java.util.Objects;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -64,16 +62,4 @@ public class Student {
         this.email = email;
     }
     
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Student)) return false;
-        Student that = (Student) o;
-        return id != null && id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email);
-    }
 }
