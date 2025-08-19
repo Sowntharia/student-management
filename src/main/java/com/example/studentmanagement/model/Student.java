@@ -1,5 +1,7 @@
 package com.example.studentmanagement.model;
 
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,19 +12,20 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "email")
     private String email;
 
     public Student() {
     }
 
-    public Student(String firstName, String lastName, String email) {
+    public Student(Long id, String firstName, String lastName, String email) {
+    	this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -60,5 +63,18 @@ public class Student {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student that = (Student) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email);
     }
 }
