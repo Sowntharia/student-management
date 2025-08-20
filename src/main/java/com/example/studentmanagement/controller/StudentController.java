@@ -6,14 +6,12 @@ import com.example.studentmanagement.model.Student;
 import com.example.studentmanagement.service.StudentService;
 import com.example.studentmanagement.util.StudentConverter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.studentmanagement.util.StudentConverter.*;
 
@@ -22,7 +20,7 @@ import static com.example.studentmanagement.util.StudentConverter.*;
 @Validated
 public class StudentController {
 
-    @Autowired
+    
     private StudentService studentService;
     
     public StudentController(StudentService studentService) {
@@ -43,7 +41,7 @@ public class StudentController {
         List<StudentDTO> students = studentService.getAllStudents()
                 .stream()
                 .map(StudentConverter::convertToDTO)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(students);
     }
 
@@ -79,7 +77,7 @@ public class StudentController {
         List<StudentDTO> result = studentService.getStudentsByLastName(lastName)
                 .stream()
                 .map(StudentConverter::convertToDTO)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(result);
     }
 }
