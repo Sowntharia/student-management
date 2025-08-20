@@ -53,11 +53,15 @@ public class ErrorResponse {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ErrorResponse)) return false;
+
+        if (!(o instanceof ErrorResponse)) {
+            return false;
+        }
+
         ErrorResponse that = (ErrorResponse) o;
-        return status == that.status &&
-               Objects.equals(message, that.message) &&
-               Objects.equals(timestamp, that.timestamp);
+        return status == that.status
+            && Objects.equals(message, that.message)
+            && Objects.equals(timestamp, that.timestamp);
     }
 
     @Override
