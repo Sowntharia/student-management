@@ -31,7 +31,6 @@ class ErrorResponseTest {
         assertEquals(now, er.getTimestamp());
     }
 
-    
     @Test
     void ctor_message_status_setsTimestampToNow() {
         long before = System.currentTimeMillis();
@@ -42,31 +41,38 @@ class ErrorResponseTest {
         assertEquals("boom", er.getMessage());
         assertNotNull(er.getTimestamp());
         long ts = er.getTimestamp().getTime();
-        assertTrue(ts >= before && ts <= after, "timestamp should be created by ctor (now)");
+        assertTrue(ts >= before && ts <= after);
     }
 
-    
     @Test
     void ctor_message_timestamp_defaultsStatusTo500() {
         Date ts = new Date(1_725_000_000_000L);
         ErrorResponse er = new ErrorResponse("boom", ts);
 
-        assertEquals(500, er.getStatus());   
+        assertEquals(500, er.getStatus());
         assertEquals("boom", er.getMessage());
         assertEquals(ts, er.getTimestamp());
     }
 
-    
+
     @Test
     void equals_sameInstance_true() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-        assertEquals(a, a);
+        assertTrue(a.equals(a));
+    }
+
+    @Test
+    void equals_null_false() {
+        ErrorResponse a = new ErrorResponse(400, "X", new Date());
+
+        assertNotEquals(a, null);
     }
 
     @Test
     void equals_differentType_false() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-        assertNotEquals("not-an-error", a); 
+
+        assertNotEquals(a, "not-an-error");
     }
 
     @Test
@@ -84,9 +90,9 @@ class ErrorResponseTest {
         Date ts = new Date(1_725_000_000_000L);
         ErrorResponse base = new ErrorResponse(400, "X", ts);
 
-        assertNotEquals(base, new ErrorResponse(401, "X", ts));                  
-        assertNotEquals(base, new ErrorResponse(400, "Y", ts));                  
-        assertNotEquals(base, new ErrorResponse(400, "X", new Date(ts.getTime()+1))); 
+        assertNotEquals(base, new ErrorResponse(401, "X", ts));
+        assertNotEquals(base, new ErrorResponse(400, "Y", ts));
+        assertNotEquals(base, new ErrorResponse(400, "X", new Date(ts.getTime() + 1)));
     }
 
     @Test
