@@ -58,21 +58,19 @@ class ErrorResponseTest {
     @Test
     void equals_sameInstance_true() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-        assertTrue(a.equals(a));
+        assertEquals(a, a);
     }
 
     @Test
     void equals_null_false() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-
-        assertNotEquals(a, null);
+        assertNotEquals(null, a);
     }
 
     @Test
     void equals_differentType_false() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-
-        assertNotEquals(a, "not-an-error");
+        assertNotEquals("not-an-error", a);
     }
 
     @Test
