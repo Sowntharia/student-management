@@ -32,7 +32,6 @@ class PageControllerTest {
     @MockBean
     private StudentService studentService;
 
-    // ---------- LIST ----------
     @Test
     void list_shouldRenderStudents_withModelFromService() throws Exception {
         Student s1 = new Student(); s1.setId(1L); s1.setFirstName("Alice"); s1.setLastName("Smith"); s1.setEmail("a@x.com");
@@ -46,7 +45,6 @@ class PageControllerTest {
                .andExpect(model().attribute("students", hasSize(2)));
     }
 
-    // ---------- CREATE (form) ----------
     @Test
     void newForm_shouldRenderStudentForm_inCreateMode() throws Exception {
         mockMvc.perform(get("/students/new"))
@@ -56,7 +54,6 @@ class PageControllerTest {
                .andExpect(model().attribute("mode", "create"));
     }
 
-    // ---------- CREATE (submit) ----------
     @Test
     void create_shouldCallSave_andRedirectToList() throws Exception {
         Student saved = new Student();
@@ -79,7 +76,6 @@ class PageControllerTest {
         assertThat(sent.getEmail()).isEqualTo("john@doe.com");
     }
 
-    // ---------- EDIT (form) ----------
     @Test
     void editForm_shouldLoadStudent_andRenderFormInEditMode() throws Exception {
         Student existing = new Student();
@@ -91,7 +87,7 @@ class PageControllerTest {
                .andExpect(view().name("student-form"))
                .andExpect(model().attributeExists("student"))
                .andExpect(model().attribute("mode", "edit"))
-               // Because PageController converts to DTO, we can assert fields via bean properties:
+               
                .andExpect(model().attribute("student", allOf(
                        hasProperty("firstName", equalTo("Eva")),
                        hasProperty("lastName",  equalTo("Green")),
@@ -99,7 +95,6 @@ class PageControllerTest {
                )));
     }
 
-    // ---------- EDIT (submit) ----------
     @Test
     void update_shouldCallUpdate_andRedirect() throws Exception {
         Student updated = new Student();
@@ -121,7 +116,6 @@ class PageControllerTest {
         assertThat(sent.getEmail()).isEqualTo("up@dated.com");
     }
 
-    // ---------- DELETE ----------
     @Test
     void delete_shouldCallDelete_andRedirect() throws Exception {
         mockMvc.perform(post("/students/9/delete"))
