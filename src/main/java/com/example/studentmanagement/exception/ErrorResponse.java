@@ -20,23 +20,35 @@ public class ErrorResponse {
     public ErrorResponse(String message, int status) {
         this.status = status;
         this.message = message;
-        this.timestamp = new Date(); // default to now
+        this.timestamp = new Date(); 
     }
 
     public ErrorResponse(String message, Date timestamp) {
-        this.status = 500; // or any default
+        this.status = 500; 
         this.message = message;
         this.timestamp = timestamp;
     }
 
-    public int getStatus() { return status; }
-    public void setStatus(int status) { this.status = status; }
+    public int getStatus() { 
+    	return status; 
+    	}
+    public void setStatus(int status) { 
+    	this.status = status; 
+    	}
 
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+    public String getMessage() { 
+    	return message; 
+    	}
+    public void setMessage(String message) { 
+    	this.message = message; 
+    	}
 
-    public Date getTimestamp() { return timestamp; }
-    public void setTimestamp(Date timestamp) { this.timestamp = timestamp; }
+    public Date getTimestamp() { 
+    	return timestamp; 
+    	}
+    public void setTimestamp(Date timestamp) { 
+    	this.timestamp = timestamp; 
+    	}
 
     @Override
     public boolean equals(Object o) {

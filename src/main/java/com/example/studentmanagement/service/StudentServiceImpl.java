@@ -3,7 +3,6 @@ package com.example.studentmanagement.service;
 import com.example.studentmanagement.exception.StudentNotFoundException;
 import com.example.studentmanagement.model.Student;
 import com.example.studentmanagement.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.Optional;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
+    
     private final StudentRepository studentRepository;
     
     public StudentServiceImpl(StudentRepository studentRepository) {
