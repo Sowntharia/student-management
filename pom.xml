@@ -27,8 +27,7 @@
     <buildhelper.version>3.4.0</buildhelper.version>
     <surefire.version>3.1.2</surefire.version>
     <failsafe.version>3.1.2</failsafe.version>
-    
-    <!-- skip flags (controlled by profiles) -->
+  
     <skipITs>false</skipITs>
     <skipE2E>false</skipE2E>
     
@@ -40,7 +39,8 @@
 	</sonar.coverage.exclusions>
     <sonar.exclusions>**/bootstrap/**,**/*Application*.java,**/model/**
 	</sonar.exclusions>
-
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml
+	</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencies>
@@ -94,7 +94,7 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Spring test stack (JUnit 5, Mockito, AssertJ included) -->
+    <!-- Spring test (JUnit 5, Mockito, AssertJ included) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -129,14 +129,19 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco.version}</version>
+        <configuration>
+          <excludes>
+            <exclude>**/*Application*.class</exclude>
+            <exclude>**/bootstrap/**</exclude>
+            <exclude>**/model/**</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
-            <goals><goal>prepare-agent</goal></goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
-            <goals><goal>report</goal></goals>
+            <id>default-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -146,7 +151,7 @@
           <artifactId>pitest-maven</artifactId>
            <version>${pitest.version}</version>
 
-  <!-- KEY: add the JUnit 5 bridge as a DEPENDENCY of the PIT plugin -->
+  <!-- PIT plugin -->
       <dependencies>
         <dependency>
            <groupId>org.pitest</groupId>
@@ -156,13 +161,12 @@
       </dependencies>
 
       <configuration>
-    <!-- Mutate code that your unit tests actually cover -->
+    <!-- Mutate code -->
          <targetClasses>
             <param>com.example.studentmanagement.service.*</param>
             <param>com.example.studentmanagement.controller.*</param>
          </targetClasses>
-
-    <!-- Usually NOT covered by unit tests; exclude to avoid “no coverage” noise -->
+    
     <excludedClasses>
       <param>com.example.studentmanagement.**/**IntegrationTest.java</param>
       <param>com.example.studentmanagement.controllers.StudentWebControllerE2E</param>
@@ -267,6 +271,28 @@
         <skipITs>false</skipITs>
         <skipE2E>false</skipE2E>
       </properties>
+    </profile>
+    
+    <profile>
+      <id>coverage-report</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+              <execution>
+                <id>jacoco-report-on-demand</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <profile>
