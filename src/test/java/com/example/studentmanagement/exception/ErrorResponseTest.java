@@ -78,8 +78,8 @@ class ErrorResponseTest {
         Date ts = new Date(1_725_000_000_000L);
         ErrorResponse a = new ErrorResponse(400, "X", ts);
         ErrorResponse b = new ErrorResponse(400, "X", ts);
-
         assertEquals(a, b);
+        assertEquals(b, a); 
         assertEquals(a.hashCode(), b.hashCode());
     }
 
@@ -87,7 +87,6 @@ class ErrorResponseTest {
     void equals_false_whenAnyFieldDiffers() {
         Date ts = new Date(1_725_000_000_000L);
         ErrorResponse base = new ErrorResponse(400, "X", ts);
-
         assertNotEquals(base, new ErrorResponse(401, "X", ts));
         assertNotEquals(base, new ErrorResponse(400, "Y", ts));
         assertNotEquals(base, new ErrorResponse(400, "X", new Date(ts.getTime() + 1)));
@@ -97,7 +96,6 @@ class ErrorResponseTest {
     void toString_containsFields() {
         Date now = new Date();
         ErrorResponse er = new ErrorResponse(403, "Forbidden", now);
-
         String out = er.toString();
         assertTrue(out.contains("Forbidden"));
         assertTrue(out.contains("403"));
