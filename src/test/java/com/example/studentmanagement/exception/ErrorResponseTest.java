@@ -2,9 +2,9 @@ package com.example.studentmanagement.exception;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.*;  
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class ErrorResponseTest {
 
@@ -41,7 +41,6 @@ class ErrorResponseTest {
         assertEquals("boom", er.getMessage());
         assertNotNull(er.getTimestamp());
         long ts = er.getTimestamp().getTime();
-        // small tolerance window
         assertTrue(ts >= before - 10 && ts <= after + 10);
     }
 
@@ -61,11 +60,12 @@ class ErrorResponseTest {
         assertEquals(a, a); // (this == o)
     }
 
-    @Test
+    @SuppressWarnings("unlikely-arg-type")
+	@Test
     void equals_null_and_differentType_false() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-        assertNotEquals(null, a);
-        assertNotEquals("not-an-error", a);
+        assertTrue(!a.equals(null));
+        assertTrue(!a.equals("not-an-error"));
     }
 
     @Test
