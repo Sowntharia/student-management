@@ -35,6 +35,9 @@ jobs:
       - name: Build & test (unit + IT)
         run: mvn -B clean verify
 
+      - name: Generate JaCoCo XML  
+        run: mvn -B jacoco:report
+
       - name: SonarCloud analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
