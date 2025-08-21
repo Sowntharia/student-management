@@ -60,12 +60,11 @@ class ErrorResponseTest {
         assertEquals(a, a); // (this == o)
     }
 
-    @SuppressWarnings("unlikely-arg-type")
 	@Test
     void equals_null_and_differentType_false() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-        assertTrue(!a.equals(null));
-        assertTrue(!a.equals("not-an-error"));
+        assertNotEquals(a, null);              
+        assertNotEquals(a, "not-an-error");
     }
 
     @Test
