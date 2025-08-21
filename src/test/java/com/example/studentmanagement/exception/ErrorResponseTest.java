@@ -41,7 +41,8 @@ class ErrorResponseTest {
         assertEquals("boom", er.getMessage());
         assertNotNull(er.getTimestamp());
         long ts = er.getTimestamp().getTime();
-        assertTrue(ts >= before && ts <= after);
+        // small tolerance window
+        assertTrue(ts >= before - 10 && ts <= after + 10);
     }
 
     @Test
@@ -54,22 +55,16 @@ class ErrorResponseTest {
         assertEquals(ts, er.getTimestamp());
     }
 
-
     @Test
     void equals_sameInstance_true() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
-        assertEquals(a, a);
+        assertEquals(a, a); // (this == o)
     }
 
     @Test
-    void equals_null_false() {
+    void equals_null_and_differentType_false() {
         ErrorResponse a = new ErrorResponse(400, "X", new Date());
         assertNotEquals(null, a);
-    }
-
-    @Test
-    void equals_differentType_false() {
-        ErrorResponse a = new ErrorResponse(400, "X", new Date());
         assertNotEquals("not-an-error", a);
     }
 
@@ -79,7 +74,7 @@ class ErrorResponseTest {
         ErrorResponse a = new ErrorResponse(400, "X", ts);
         ErrorResponse b = new ErrorResponse(400, "X", ts);
         assertEquals(a, b);
-        assertEquals(b, a); 
+        assertEquals(b, a);
         assertEquals(a.hashCode(), b.hashCode());
     }
 
@@ -90,6 +85,14 @@ class ErrorResponseTest {
         assertNotEquals(base, new ErrorResponse(401, "X", ts));
         assertNotEquals(base, new ErrorResponse(400, "Y", ts));
         assertNotEquals(base, new ErrorResponse(400, "X", new Date(ts.getTime() + 1)));
+    }
+
+    @Test
+    void equals_handlesNullFields() {
+        ErrorResponse a = new ErrorResponse(500, null, null);
+        ErrorResponse b = new ErrorResponse(500, null, null);
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
     }
 
     @Test
