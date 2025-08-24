@@ -6,15 +6,17 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/studentdata?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
     username: root
     password: Root@123
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    # driver-class-name: com.mysql.cj.jdbc.Driver   # optional; Boot can auto-detect
 
   jpa:
+    show-sql: true
+    open-in-view: false
     hibernate:
       ddl-auto: update
-    show-sql: true
+    # Use unified dialect name for Hibernate 6 / Boot 3
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
 
   thymeleaf:
     cache: false

@@ -19,7 +19,7 @@
 
   <properties>
     <java.version>17</java.version>
-    <selenium.version>4.22.0</selenium.version>
+    <selenium.version>4.25.0</selenium.version> <!-- or newer -->
     <webdrivermanager.version>5.8.0</webdrivermanager.version>
     <jacoco.version>0.8.11</jacoco.version>
     <pitest.version>1.19.4</pitest.version>
@@ -78,8 +78,14 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>${selenium.version}</version>
+      <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-support</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>

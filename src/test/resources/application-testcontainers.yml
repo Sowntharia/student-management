@@ -1,37 +1,18 @@
-# IMPORTANT: do NOT set spring.datasource.* here.
-# BaseTestContainer supplies JDBC URL/username/password at runtime.
-
 spring:
+  datasource:
+    hikari:
+      initialization-fail-timeout: 0   # don’t fail fast if DB isn't ready yet
+      validation-timeout: 5000
   jpa:
     hibernate:
-      # Avoid DDL-on-shutdown races with the container:
       ddl-auto: update
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        # Dialect is optional on Spring Boot 3+ (auto-detected), but harmless if kept:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-
-  # Make teardown faster/quieter in tests
-  datasource:
-    hikari:
-      maxLifetime: 15000        # 15s
-      idleTimeout: 5000         # 5s
-      connectionTimeout: 10000  # 10s
-      minimumIdle: 1
-      maximumPoolSize: 5
-
+        dialect: org.hibernate.dialect.MySQLDialect
   thymeleaf:
-    cache: false   # convenient for tests; always render fresh
-
+    cache: false
 logging:
   level:
-    com.zaxxer.hikari: ERROR      # hush Hikari shutdown noise
+    com.zaxxer.hikari: WARN
     org.testcontainers: INFO
-    org.hibernate.SQL: INFO
-    org.springframework.test: INFO
-
-server:
-  error:
-    include-message: always

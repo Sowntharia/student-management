@@ -14,9 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
+
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -92,7 +94,6 @@ class StudentWebControllerE2E extends BaseTestContainer {
 
         clickSaveStudent();
 
-        // back to list; same row id should show updated text
         wait.until(ExpectedConditions.urlMatches(".*/students$"));
         By rowSel = By.cssSelector("tr[id='" + rowId + "']");
         wait.until(ExpectedConditions.textToBePresentInElementLocated(rowSel, "UpdatedFirst"));
@@ -112,7 +113,6 @@ class StudentWebControllerE2E extends BaseTestContainer {
         scrollIntoViewCenter(deleteBtn);
         deleteBtn.click();
 
-        // after redirect, the row shouldn't be present
         wait.until(ExpectedConditions.urlMatches(".*/students$"));
         wait.until(d -> d.findElements(By.cssSelector("tr[id='" + rowId + "']")).isEmpty());
         assertThat(driver.findElements(By.cssSelector("tr[id='" + rowId + "']"))).isEmpty();
