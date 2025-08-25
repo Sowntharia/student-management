@@ -1,32 +1,40 @@
-HELP.md
+# --- Project artifacts we do NOT commit ---
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+.m2/
 
-### STS ###
-.apt_generated
+# Test reports & coverage
+**/surefire-reports/
+**/failsafe-reports/
+**/jacoco.exec
+**/target/site/jacoco/
+**/pit-reports/
+
+# Logs
+*.log
+logs/
+
+# --- IDE files (ignore by default) ---
+# Eclipse / STS
 .classpath
 .project
-.settings
+.settings/
+.apt_generated
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+# IntelliJ
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# VS Code
 .vscode/
