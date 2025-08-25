@@ -1,10 +1,11 @@
-FROM maven:3.9.6-eclipse-temurin-17 AS build
-
+FROM maven:3.9.9-eclipse-temurin-17
 WORKDIR /app
+
+COPY pom.xml ./
+RUN mvn -q -B -DskipTests dependency:go-offline
 
 COPY src ./src
 
-RUN mvn clean package
+EXPOSE 8080
 
-CMD mvn spring-boot:run
-
+CMD ["mvn","-q","-DskipTests","-Dspring-boot.run.profiles=dev","spring-boot:run"]

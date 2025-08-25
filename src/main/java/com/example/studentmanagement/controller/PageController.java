@@ -68,4 +68,10 @@ public class PageController {
         studentService.deleteStudent(id);
         return REDIRECT_STUDENTS;
     }
+    
+    // ROOT redirect
+    @GetMapping("/")
+    public String root() {
+        return REDIRECT_STUDENTS;
+    }
 }

@@ -124,4 +124,12 @@ class PageControllerTest {
 
         verify(studentService, times(1)).deleteStudent(9L);
     }
+    
+    @Test
+    void root_shouldRedirectToStudents() throws Exception {
+        mockMvc.perform(get("/"))
+               .andExpect(status().is3xxRedirection())
+               .andExpect(redirectedUrl("/students"));
+    }
+
 }
